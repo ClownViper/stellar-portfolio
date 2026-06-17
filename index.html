@@ -4,18 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Congratulations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: system-ui, sans-serif;
-      color: #444;
-      background: linear-gradient(135deg, #fdeef2, #eef3fd);
+      font-family: 'Zen Maru Gothic', system-ui, sans-serif;
+      color: #5c5346;
+      background: linear-gradient(160deg, #f7f4ed 0%, #efe9dd 55%, #e3e7dc 100%);
       overflow-x: hidden;
     }
 
-    /* 各メッセージは1画面分の高さを使い、中央に配置 */
     .section {
       min-height: 100vh;
       display: flex;
@@ -26,7 +28,6 @@
       padding: 2rem;
     }
 
-    /* 最初は透明・少し下にずらしておき、表示時にふわっと上がる */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -39,14 +40,16 @@
 
     h1 {
       font-size: clamp(1.8rem, 6vw, 3rem);
-      line-height: 1.5;
+      line-height: 1.6;
       font-weight: 700;
+      color: #7a8a6a;
     }
 
     p {
       font-size: clamp(1.1rem, 4vw, 1.5rem);
-      line-height: 2;
+      line-height: 2.1;
       max-width: 32rem;
+      font-weight: 500;
     }
 
     .emoji { font-size: clamp(2.5rem, 10vw, 4rem); margin-bottom: 1.5rem; }
@@ -57,7 +60,7 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: 0.9rem;
-      color: #999;
+      color: #a89f8e;
       animation: bounce 2s infinite;
       transition: opacity 0.5s ease;
     }
@@ -71,7 +74,7 @@
 
   <section class="section">
     <div class="reveal">
-      <div class="emoji">💐</div>
+      <div class="emoji">🌿</div>
       <h1>ご結婚<br>おめでとう</h1>
     </div>
   </section>
@@ -94,7 +97,7 @@
 
   <section class="section">
     <div class="reveal">
-      <div class="emoji">🎉</div>
+      <div class="emoji">🤍</div>
       <h1>末永く<br>お幸せに</h1>
     </div>
   </section>
@@ -102,7 +105,6 @@
   <div class="scroll-hint">▼ スクロール</div>
 
   <script>
-    // 各メッセージが画面に入ったら visible クラスを付けてフェードイン
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -113,7 +115,6 @@
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // 最後のセクションに到達したら紙吹雪を一度だけ舞わせる
     const lastSection = document.querySelector('.section:last-of-type .reveal');
     let celebrated = false;
     const finale = new IntersectionObserver((entries) => {
@@ -126,25 +127,28 @@
     }, { threshold: 0.6 });
     finale.observe(lastSection);
 
-    // 開いた直後にも軽くお祝い
     window.addEventListener('load', () => {
       setTimeout(() => {
-        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#a8b894', '#d4c9a8', '#e8e2d5', '#bcae8e']
+        });
       }, 800);
     });
 
-    // スクロールしたらヒントを消す
     window.addEventListener('scroll', () => {
       const hint = document.querySelector('.scroll-hint');
       if (window.scrollY > 100) hint.style.opacity = '0';
     }, { passive: true });
 
-    // 紙吹雪を左右から数回に分けて舞わせる
     function launchConfetti() {
       const end = Date.now() + 1500;
+      const colors = ['#a8b894', '#d4c9a8', '#e8e2d5', '#bcae8e'];
       (function frame() {
-        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors });
         if (Date.now() < end) requestAnimationFrame(frame);
       })();
     }
