@@ -35,10 +35,7 @@
       transform: translateY(30px);
       transition: opacity 1.2s ease, transform 1.2s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     .content { position: relative; z-index: 2; }
 
@@ -50,15 +47,21 @@
     }
 
     p {
-      font-size: clamp(1.1rem, 4vw, 1.5rem);
-      line-height: 2.1;
+      font-size: clamp(1.1rem, 4vw, 1.45rem);
+      line-height: 2.2;
       max-width: 32rem;
       font-weight: 500;
     }
 
+    .lead {
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      color: #8a7f6b;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+
     .emoji { font-size: clamp(2.5rem, 10vw, 4rem); margin-bottom: 1.5rem; }
 
-    /* 写真の枠 */
     .photo-frame {
       width: min(80vw, 360px);
       aspect-ratio: 4 / 3;
@@ -67,31 +70,15 @@
       box-shadow: 0 12px 30px rgba(120, 110, 90, 0.18);
       background: #efe9dd;
     }
-    .photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* 写真がまだ無いときのプレースホルダー表示 */
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .photo-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: #b0a690;
-      border: 2px dashed #cabfa5;
-      font-size: 0.95rem;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem;
+      color: #b0a690; border: 2px dashed #cabfa5; font-size: 0.95rem;
     }
     .photo-placeholder .ph-icon { font-size: 2rem; }
-    .photo-caption {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: #8a7f6b;
-    }
+    .photo-caption { margin-top: 1rem; font-size: 1rem; color: #8a7f6b; }
 
     .leaf {
       position: absolute;
@@ -152,6 +139,7 @@
     <svg class="leaf top-right"><use href="#leaf-branch"/></svg>
     <div class="content reveal">
       <div class="emoji">🌿</div>
+      <p class="lead">結婚した二人へ</p>
       <h1>ご結婚<br>おめでとう</h1>
       <div class="divider-wrap"><div class="divider"></div></div>
     </div>
@@ -159,38 +147,53 @@
 
   <section class="section">
     <p class="content reveal">
-      ふたりが出会えたことも<br>
-      今日この日を迎えられたことも<br>
-      きっと特別なご縁ですね。
+      まずは、本当におめでとう。<br>
+      二人が並んでいる姿を想像すると<br>
+      こちらまで幸せな気持ちになります。
     </p>
   </section>
 
-  <!-- 写真セクション① -->
+  <section class="section">
+    <p class="content reveal">
+      ここまでの道のりには<br>
+      二人にしか分からない時間が<br>
+      たくさんあったと思います。<br>
+      その一つひとつが、今日につながったんですね。
+    </p>
+  </section>
+
   <section class="section">
     <svg class="leaf bottom-right"><use href="#leaf-branch"/></svg>
     <div class="content reveal">
       <div class="photo-frame">
-        <!-- 写真を入れるときは下のコメントを外して src を画像ファイル名にする -->
         <!-- <img src="photo1.jpg" alt="ふたりの写真"> -->
         <div class="photo-placeholder">
           <span class="ph-icon">📷</span>
           <span>ここに写真が入ります</span>
         </div>
       </div>
-      <p class="photo-caption">ふたりらしい一枚を。</p>
+      <p class="photo-caption">笑顔がよく似合う二人へ。</p>
     </div>
   </section>
 
   <section class="section">
     <svg class="leaf top-left"><use href="#leaf-branch"/></svg>
     <p class="content reveal">
-      これからの毎日が<br>
-      笑顔のあふれる<br>
-      あたたかなものになりますように。
+      これからは、嬉しいことは二倍に、<br>
+      しんどいことは半分こにして、<br>
+      二人で分け合っていけますように。
     </p>
   </section>
 
-  <!-- 写真セクション② -->
+  <section class="section">
+    <p class="content reveal">
+      ときには立ち止まる日があっても<br>
+      隣にお互いがいてくれるなら<br>
+      きっと大丈夫。<br>
+      二人のペースで歩んでいってください。
+    </p>
+  </section>
+
   <section class="section">
     <svg class="leaf top-right"><use href="#leaf-branch"/></svg>
     <div class="content reveal">
@@ -201,7 +204,7 @@
           <span>ここに写真が入ります</span>
         </div>
       </div>
-      <p class="photo-caption">大切な思い出とともに。</p>
+      <p class="photo-caption">これからの二人へ。</p>
     </div>
   </section>
 
@@ -210,6 +213,7 @@
     <svg class="leaf bottom-right"><use href="#leaf-branch"/></svg>
     <div class="content reveal">
       <div class="emoji">🤍</div>
+      <p class="lead">どうかいつまでも</p>
       <h1>末永く<br>お幸せに</h1>
       <div class="divider-wrap"><div class="divider"></div></div>
     </div>
