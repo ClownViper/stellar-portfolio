@@ -416,7 +416,7 @@
 </div>
  
 <div class="console-wrap">
-  <div class="console" id="console"></div>
+  <div class="console" id="obs-console"></div>
 </div>
  
 <footer>
@@ -662,7 +662,7 @@ nav.innerHTML = PROJECTS.map((p, i) => `
 `).join('');
  
 /* ===== Console rendering ===== */
-const consoleEl = document.getElementById('console');
+const consoleEl = document.getElementById('obs-console');
 const coordReadout = document.getElementById('coord-readout');
 let activeIndex = 0;
  
