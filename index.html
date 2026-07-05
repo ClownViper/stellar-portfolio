@@ -1,402 +1,762 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Congratulations</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Zen Maru Gothic', system-ui, sans-serif;
-      color: #5c5346;
-      background: linear-gradient(160deg, #f7f4ed 0%, #efe9dd 55%, #e3e7dc 100%);
-      overflow-x: hidden;
-    }
-
-    /* 花びらが舞い落ちる背景レイヤー */
-    .petals {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .petal {
-      position: absolute;
-      top: -40px;
-      color: #d8c4a8;
-      opacity: 0.7;
-      animation: fall linear infinite;
-    }
-    @keyframes fall {
-      0%   { transform: translateY(-40px) translateX(0) rotate(0deg); }
-      100% { transform: translateY(105vh) translateX(40px) rotate(360deg); }
-    }
-
-    .section {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1.2s ease, transform 1.2s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    .content { position: relative; z-index: 2; }
-
-    h1 {
-      font-size: clamp(1.8rem, 6vw, 3rem);
-      line-height: 1.6;
-      font-weight: 700;
-      color: #7a8a6a;
-    }
-
-    /* 一字ずつ浮かび上がる文字 */
-    .char {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .char.show { opacity: 1; transform: translateY(0); }
-
-    p {
-      font-size: clamp(1.1rem, 4vw, 1.45rem);
-      line-height: 2.2;
-      max-width: 32rem;
-      font-weight: 500;
-    }
-
-    .lead {
-      font-size: clamp(1rem, 3.5vw, 1.2rem);
-      color: #8a7f6b;
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
-
-    .emoji { font-size: clamp(2.5rem, 10vw, 4rem); margin-bottom: 1.5rem; }
-
-    .photo-frame {
-      width: min(80vw, 360px);
-      aspect-ratio: 4 / 3;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(120, 110, 90, 0.18);
-      background: #efe9dd;
-      /* 写真ズームイン用 */
-      transform: scale(1.15);
-      opacity: 0;
-      transition: transform 1.6s ease, opacity 1.6s ease;
-    }
-    .reveal.visible .photo-frame { transform: scale(1); opacity: 1; }
-    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .photo-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 0.5rem;
-      color: #b0a690; border: 2px dashed #cabfa5; font-size: 0.95rem;
-    }
-    .photo-placeholder .ph-icon { font-size: 2rem; }
-    .photo-caption { margin-top: 1rem; font-size: 1rem; color: #8a7f6b; }
-
-    /* タイプライター用カーソル */
-    .typed { min-height: 1.6em; }
-    .cursor {
-      display: inline-block;
-      width: 2px;
-      background: #7a8a6a;
-      margin-left: 2px;
-      animation: blink 0.8s step-end infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    .leaf {
-      position: absolute;
-      width: clamp(80px, 18vw, 160px);
-      color: #b6c2a3;
-      opacity: 0.55;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .leaf.top-left    { top: -10px; left: -20px; transform: rotate(15deg); }
-    .leaf.top-right   { top: -10px; right: -20px; transform: scaleX(-1) rotate(15deg); }
-    .leaf.bottom-left { bottom: -10px; left: -20px; transform: scaleY(-1) rotate(15deg); }
-    .leaf.bottom-right{ bottom: -10px; right: -20px; transform: scale(-1) rotate(15deg); }
-
-    .divider {
-      width: 60px; height: 1px;
-      background: #b6a98c;
-      margin: 1.8rem auto 0;
-      position: relative;
-    }
-    .divider::before {
-      content: "❦";
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -55%);
-      color: #b6a98c; font-size: 1rem;
-      padding: 0 0.4rem; line-height: 1;
-    }
-    .divider-wrap { display: inline-block; background: linear-gradient(160deg,#f7f4ed,#efe9dd); }
-
-    .scroll-hint {
-      position: fixed; bottom: 1.5rem; left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.9rem; color: #a89f8e;
-      animation: bounce 2s infinite;
-      transition: opacity 0.5s ease;
-      z-index: 10;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAISUKE // STELLAR ARCHIVE — 観測デッキ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --space: #060915;
+    --space-2: #0a0f22;
+    --panel: rgba(13, 18, 38, 0.72);
+    --panel-solid: #0d1226;
+    --line: #1e2748;
+    --starlight: #eef3ff;
+    --aurora: #7dd9e8;
+    --aurora-soft: rgba(125, 217, 232, 0.35);
+    --muted: #8b94b8;
+    --muted-dim: #4e5678;
+ 
+    --c-tsundoku: #f0c453;
+    --c-hide: #d99a6c;
+    --c-farm: #8fd49a;
+    --c-news: #ffab7e;
+  }
+ 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--space);
+    color: var(--starlight);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+ 
+  /* ===== Sky layers ===== */
+  #sky {
+    position: fixed; inset: 0; z-index: -3;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% 120%, #101a3a 0%, transparent 55%),
+      radial-gradient(ellipse 80% 55% at 20% -10%, rgba(70, 90, 160, 0.18), transparent 60%),
+      var(--space);
+  }
+  #aurora {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background:
+      radial-gradient(ellipse 45% 26% at 75% 8%, rgba(125,217,232,0.10), transparent 70%),
+      radial-gradient(ellipse 50% 22% at 30% 4%, rgba(150,120,220,0.08), transparent 70%);
+    animation: auroraShift 18s ease-in-out infinite alternate;
+  }
+  @keyframes auroraShift {
+    from { opacity: 0.7; transform: translateX(-2%); }
+    to   { opacity: 1;   transform: translateX(2%); }
+  }
+  #starfield { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+ 
+  .mono { font-family: 'Space Mono', monospace; }
+  .display { font-family: 'Shippori Mincho', serif; }
+ 
+  /* ===== Observatory top bar ===== */
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(10,15,34,0.85), rgba(10,15,34,0.35));
+    backdrop-filter: blur(6px);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .obs-id { display: flex; align-items: center; gap: 14px; }
+  .obs-id .mark {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid var(--aurora);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .obs-id .mark::before {
+    content: ''; position: absolute; inset: -5px; border-radius: 50%;
+    border: 1px dashed rgba(125,217,232,0.3);
+    animation: slowSpin 24s linear infinite;
+  }
+  @keyframes slowSpin { to { transform: rotate(360deg); } }
+  .obs-id .mark span { font-family: 'Shippori Mincho', serif; font-weight: 800; font-size: 17px; color: var(--aurora); }
+  .obs-id .name { font-family: 'Shippori Mincho', serif; font-size: 19px; font-weight: 600; letter-spacing: 0.14em; line-height: 1.2; }
+  .obs-id .sub { font-family: 'Space Mono', monospace; font-size: 9.5px; color: var(--muted); letter-spacing: 0.12em; }
+ 
+  .obs-meta { display: flex; gap: 26px; }
+  .obs-meta .item { text-align: right; }
+  .obs-meta .k { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted-dim); letter-spacing: 0.16em; }
+  .obs-meta .v { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--aurora); margin-top: 2px; }
+  @media (max-width: 680px) { .obs-meta .hide-sm { display: none; } }
+ 
+  /* ===== Hero ===== */
+  .hero { text-align: center; padding: 64px 20px 22px; position: relative; }
+  .hero .eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.5em;
+    color: var(--aurora); text-transform: uppercase; padding-left: 0.5em;
+  }
+  .hero h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(40px, 8vw, 84px);
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    padding-left: 0.16em;
+    margin-top: 14px;
+    line-height: 1.1;
+    text-shadow: 0 0 50px rgba(125,217,232,0.25);
+  }
+  .hero .en {
+    font-family: 'Space Mono', monospace; font-size: 11.5px; color: var(--muted);
+    letter-spacing: 0.35em; margin-top: 12px; text-transform: uppercase; padding-left: 0.35em;
+  }
+  .hero p.sub {
+    color: var(--muted); font-size: 13.5px; line-height: 2; margin-top: 22px;
+    max-width: 520px; margin-left: auto; margin-right: auto;
+  }
+ 
+  /* ===== Star chart ===== */
+  .chart-wrap {
+    max-width: 1100px; margin: 30px auto 0; padding: 0 16px;
+    position: relative;
+  }
+  .chart-frame {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    backdrop-filter: blur(3px);
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-frame .frame-label {
+    position: absolute; top: 12px; left: 16px; z-index: 5;
+    font-family: 'Space Mono', monospace; font-size: 9.5px; color: var(--muted-dim); letter-spacing: 0.18em;
+  }
+  .chart-frame .frame-label-r {
+    position: absolute; top: 12px; right: 16px; z-index: 5;
+    font-family: 'Space Mono', monospace; font-size: 9.5px; color: var(--muted-dim); letter-spacing: 0.12em;
+  }
+  #starchart { display: block; width: 100%; height: auto; }
+ 
+  #starchart .const-hit { cursor: pointer; }
+  #starchart .const-line {
+    fill: none;
+    stroke-width: 1;
+    stroke-linecap: round;
+    opacity: 0.28;
+    transition: opacity 0.4s ease, stroke-width 0.4s ease;
+  }
+  #starchart .const-group.active .const-line {
+    opacity: 0.95;
+    stroke-width: 1.4;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: drawLine 1.4s ease forwards;
+  }
+  @keyframes drawLine { to { stroke-dashoffset: 0; } }
+ 
+  #starchart .const-star { transition: r 0.3s ease, opacity 0.3s ease; opacity: 0.75; }
+  #starchart .const-group.active .const-star { opacity: 1; }
+  #starchart .const-group.active .star-halo { animation: haloPulse 2.4s ease-in-out infinite; }
+  @keyframes haloPulse { 0%,100% { opacity: 0.25; } 50% { opacity: 0.6; } }
+ 
+  #starchart .const-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px; letter-spacing: 0.24em;
+    fill: var(--muted); opacity: 0.85;
+    transition: fill 0.3s ease;
+  }
+  #starchart .const-name-en {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px; letter-spacing: 0.18em;
+    fill: var(--muted-dim);
+  }
+  #starchart .const-group.active .const-name { fill: var(--starlight); }
+  #starchart .const-group:hover .const-name { fill: var(--starlight); }
+ 
+  #starchart .graticule { stroke: rgba(125,217,232,0.06); fill: none; }
+ 
+  /* ===== Constellation nav (mobile-friendly) ===== */
+  .const-nav {
+    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    margin-top: 18px;
+  }
+  .const-nav button {
+    --c: var(--aurora);
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 400; font-size: 12.5px;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 8px 18px; cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .const-nav button .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); }
+  .const-nav button:hover { color: var(--starlight); border-color: var(--muted-dim); }
+  .const-nav button.active {
+    color: var(--starlight);
+    border-color: var(--c);
+    box-shadow: 0 0 16px -6px var(--c);
+  }
+  .const-nav button:focus-visible { outline: 2px solid var(--aurora); outline-offset: 2px; }
+ 
+  /* ===== Observation console (detail) ===== */
+  .console-wrap { max-width: 1100px; margin: 26px auto 0; padding: 0 16px 40px; }
+  .console {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    backdrop-filter: blur(3px);
+    padding: 34px 36px;
+    display: grid; grid-template-columns: 230px 1fr; gap: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 720px) { .console { grid-template-columns: 1fr; padding: 26px 22px; } }
+  .console::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--obj-c, var(--aurora)), transparent);
+    opacity: 0.8;
+  }
+  .console .console-tag {
+    position: absolute; top: 14px; right: 20px;
+    font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted-dim); letter-spacing: 0.16em;
+  }
+ 
+  .orbit-view { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .orbit {
+    position: relative; width: 170px; height: 170px; margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .orbit .ring1, .orbit .ring2 {
+    position: absolute; border-radius: 50%;
+  }
+  .orbit .ring1 {
+    inset: 0;
+    border: 1px solid color-mix(in srgb, var(--obj-c, var(--aurora)) 25%, transparent);
+    animation: slowSpin 30s linear infinite;
+  }
+  .orbit .ring1::after {
+    content: ''; position: absolute; top: -3px; left: 50%; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--obj-c, var(--aurora)); box-shadow: 0 0 10px var(--obj-c, var(--aurora));
+  }
+  .orbit .ring2 {
+    inset: 20px;
+    border: 1px dashed color-mix(in srgb, var(--obj-c, var(--aurora)) 20%, transparent);
+    animation: slowSpin 18s linear infinite reverse;
+  }
+  .orbit .body {
+    width: 92px; height: 92px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 40px;
+    background:
+      radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--obj-c, var(--aurora)) 55%, transparent), transparent 60%),
+      radial-gradient(circle at 70% 75%, rgba(0,0,0,0.5), transparent 55%),
+      var(--space-2);
+    border: 1px solid color-mix(in srgb, var(--obj-c, var(--aurora)) 60%, transparent);
+    box-shadow: 0 0 40px -8px var(--obj-c, var(--aurora)), inset -8px -8px 24px rgba(0,0,0,0.55);
+  }
+  .orbit-view .obj-class {
+    font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: 0.2em;
+    color: var(--obj-c, var(--aurora));
+    border: 1px solid color-mix(in srgb, var(--obj-c, var(--aurora)) 50%, transparent);
+    border-radius: 999px; padding: 4px 14px; text-transform: uppercase;
+  }
+  .orbit-view .obj-code { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted-dim); margin-top: 10px; letter-spacing: 0.14em; }
+ 
+  .obj-main .oname {
+    font-family: 'Shippori Mincho', serif; font-size: 34px; font-weight: 600;
+    letter-spacing: 0.08em; line-height: 1.2;
+    color: var(--starlight);
+  }
+  .obj-main .oname .accent { color: var(--obj-c, var(--aurora)); }
+  .obj-main .otag { color: var(--muted); font-size: 13px; margin-top: 8px; margin-bottom: 20px; line-height: 1.8; }
+ 
+  .sec {
+    font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em;
+    color: var(--muted-dim); text-transform: uppercase;
+    margin: 20px 0 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sec::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+  .sec:first-child { margin-top: 0; }
+ 
+  .obslog { list-style: none; }
+  .obslog li {
+    font-size: 13.5px; line-height: 1.9;
+    padding: 5px 0 5px 24px; position: relative;
+    color: #cdd5ef;
+  }
+  .obslog li::before {
+    content: '✦'; position: absolute; left: 2px; top: 5px;
+    color: var(--obj-c, var(--aurora)); font-size: 11px;
+  }
+ 
+  .mag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; }
+  .mag-row .mlabel { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); width: 96px; flex-shrink: 0; letter-spacing: 0.06em; }
+  .mag-row .mtrack { flex: 1; height: 2px; background: var(--line); position: relative; border-radius: 2px; }
+  .mag-row .mfill {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+    background: var(--obj-c, var(--aurora));
+    border-radius: 2px;
+    transition: width 0.9s cubic-bezier(.2,.8,.2,1);
+  }
+  .mag-row .mfill::after {
+    content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--obj-c, var(--aurora));
+    box-shadow: 0 0 10px var(--obj-c, var(--aurora));
+  }
+  .mag-row .mval { font-family: 'Space Mono', monospace; font-size: 11px; width: 34px; text-align: right; color: var(--muted); }
+ 
+  .spectra { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }
+  .spectra span {
+    font-family: 'Space Mono', monospace; font-size: 10px; padding: 4px 12px;
+    border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
+    background: rgba(125,217,232,0.03);
+  }
+ 
+  .obj-links { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .obj-links a, .obj-links span.disabled {
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 400; font-size: 12.5px;
+    padding: 10px 24px; border-radius: 999px;
+    border: 1px solid var(--obj-c, var(--aurora));
+    color: var(--obj-c, var(--aurora)); text-decoration: none;
+    transition: all 0.25s ease;
+  }
+  .obj-links a:hover {
+    background: var(--obj-c, var(--aurora)); color: var(--space);
+    box-shadow: 0 0 24px -6px var(--obj-c, var(--aurora));
+  }
+  .obj-links span.disabled { color: var(--muted-dim); border-color: var(--line); }
+ 
+  .hint {
+    text-align: center; font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--muted-dim); margin-top: 16px; letter-spacing: 0.1em;
+  }
+  .hint kbd { border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; background: var(--panel-solid); }
+ 
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 30px 20px 38px; text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(10,15,34,0.7));
+  }
+  footer .flinks { display: flex; justify-content: center; gap: 26px; margin-bottom: 16px; flex-wrap: wrap; }
+  footer .flinks a {
+    color: var(--muted); text-decoration: none;
+    font-family: 'Space Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em;
+    border-bottom: 1px dotted var(--muted-dim); padding-bottom: 2px;
+  }
+  footer .flinks a:hover { color: var(--aurora); border-color: var(--aurora); }
+  footer .copy { color: var(--muted-dim); font-size: 10px; font-family: 'Space Mono', monospace; letter-spacing: 0.1em; line-height: 1.9; }
+ 
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
 </head>
 <body>
-
-  <div class="petals" id="petals"></div>
-
-  <svg width="0" height="0" style="position:absolute">
-    <symbol id="leaf-branch" viewBox="0 0 100 100">
-      <path d="M50 95 Q50 50 50 5" stroke="currentColor" stroke-width="2" fill="none"/>
-      <path d="M50 80 Q30 70 25 50 Q45 58 50 75 Z" fill="currentColor"/>
-      <path d="M50 65 Q70 55 75 35 Q55 43 50 60 Z" fill="currentColor"/>
-      <path d="M50 48 Q32 40 28 22 Q46 30 50 45 Z" fill="currentColor"/>
-      <path d="M50 32 Q68 24 72 8 Q54 16 50 30 Z" fill="currentColor"/>
-    </symbol>
-    <symbol id="petal-shape" viewBox="0 0 100 100">
-      <path d="M50 5 Q80 35 50 95 Q20 35 50 5 Z" fill="currentColor"/>
-    </symbol>
-  </svg>
-
-  <section class="section">
-    <svg class="leaf top-left"><use href="#leaf-branch"/></svg>
-    <svg class="leaf top-right"><use href="#leaf-branch"/></svg>
-    <div class="content reveal">
-      <div class="emoji">🌿</div>
-      <p class="lead">結婚した二人へ</p>
-      <h1 class="char-anim">ご結婚<br>おめでとう</h1>
-      <div class="divider-wrap"><div class="divider"></div></div>
+ 
+<div id="sky"></div>
+<div id="aurora"></div>
+<canvas id="starfield"></canvas>
+ 
+<div class="topbar">
+  <div class="obs-id">
+    <div class="mark"><span>D</span></div>
+    <div>
+      <div class="name display">大介観測所</div>
+      <div class="sub">RAILS ENGINEER // OBSERVATION DECK</div>
     </div>
-  </section>
-
-  <section class="section">
-    <p class="content reveal">
-      まずは、本当におめでとう。<br>
-      二人が並んでいる姿を想像すると<br>
-      こちらまで幸せな気持ちになります。
-    </p>
-  </section>
-
-  <section class="section">
-    <p class="content reveal">
-      ここまでの道のりには<br>
-      二人にしか分からない時間が<br>
-      たくさんあったと思います。<br>
-      その一つひとつが、今日につながったんですね。
-    </p>
-  </section>
-
-  <section class="section">
-    <svg class="leaf bottom-right"><use href="#leaf-branch"/></svg>
-    <div class="content reveal">
-      <div class="photo-frame">
-        <!-- <img src="photo1.jpg" alt="ふたりの写真"> -->
-        <div class="photo-placeholder">
-          <span class="ph-icon">📷</span>
-          <span>ここに写真が入ります</span>
-        </div>
+  </div>
+  <div class="obs-meta">
+    <div class="item hide-sm">
+      <div class="k">LOCAL TIME</div>
+      <div class="v" id="obs-clock">--:--:--</div>
+    </div>
+    <div class="item hide-sm">
+      <div class="k">CORE SYSTEM</div>
+      <div class="v">RAILS 8</div>
+    </div>
+    <div class="item">
+      <div class="k">CATALOGUED</div>
+      <div class="v">4 OBJECTS</div>
+    </div>
+  </div>
+</div>
+ 
+<div class="hero">
+  <div class="eyebrow mono">Stellar Archive</div>
+  <h1 class="display">星図の間</h1>
+  <div class="en">— PLANETARIUM OF WORKS —</div>
+  <p class="sub">
+    これまでに作り上げたアプリケーションを、夜空の星座として記録しています。<br>
+    星座を選ぶと、観測コンソールに詳細データが投影されます。
+  </p>
+</div>
+ 
+<div class="chart-wrap">
+  <div class="chart-frame">
+    <div class="frame-label mono">SKY CHART // EPOCH 2026.7</div>
+    <div class="frame-label-r mono" id="coord-readout">RA --h --m / DEC +--°</div>
+    <svg id="starchart" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="制作物の星図">
+      <!-- graticule -->
+      <g id="graticule"></g>
+      <!-- constellations injected by JS -->
+      <g id="constellations"></g>
+    </svg>
+  </div>
+ 
+  <div class="const-nav" id="const-nav"></div>
+  <p class="hint">← → で星座を切替 / 星座か下のボタンをタップ</p>
+</div>
+ 
+<div class="console-wrap">
+  <div class="console" id="console"></div>
+</div>
+ 
+<footer>
+  <div class="flinks">
+    <a href="#" target="_blank">GitHub</a>
+    <a href="#" target="_blank">BOOTH</a>
+    <a href="#" target="_blank">Gumroad</a>
+    <a href="#" target="_blank">X (Twitter)</a>
+  </div>
+  <div class="copy">
+    © 2026 DAISUKE OBSERVATORY<br>
+    ALL CONSTELLATIONS BUILT WITH RUBY ON RAILS
+  </div>
+</footer>
+ 
+<script>
+/* =========================================================
+   Data: projects as constellations
+   points: star coordinates in the 1000x520 chart
+   edges:  index pairs to connect
+   ========================================================= */
+const PROJECTS = [
+  {
+    key: 'tsundoku',
+    code: 'OBJ-2024-α',
+    name: '積読マイニング',
+    nameEn: 'BIBLIOTHECA',
+    constLabel: 'としょ座',
+    tag: '積読を「資産」に変える本棚管理RPG。バーコードでスキャンした本が、夜空の資産として積み上がる。',
+    icon: '📚',
+    color: '#f0c453',
+    objClass: 'Template ★ On Sale',
+    log: [
+      'バーコードスキャンで秒速登録(html5-qrcode + OpenBD API)',
+      '未読本を「資産」として可視化するダッシュボード',
+      '読了チャレンジ機能で積読を消化',
+      'PWA対応、オフラインでも本棚を閲覧可能'
+    ],
+    mags: [['RAILS', 90], ['UI/UX', 78], ['DATA MODEL', 68], ['AUTOMATION', 55]],
+    spectra: ['Rails 8', 'Hotwire', 'html5-qrcode', 'OpenBD API', 'PWA'],
+    links: [{ label: 'BOOTHで見る', href: '#' }],
+    // open book shape
+    points: [[120,160],[175,120],[235,150],[175,185],[120,160],[235,150],[290,115],[235,150]],
+    stars:  [[120,160,3.2],[175,120,4],[235,150,3.4],[175,185,2.6],[290,115,3]],
+    edges:  [[0,1],[1,2],[2,3],[3,0],[2,4]],
+    label:  [200, 225]
+  },
+  {
+    key: 'hideledger',
+    code: 'OBJ-2024-β',
+    name: 'HideLedger',
+    nameEn: 'FILUM',
+    constLabel: 'いと座',
+    tag: 'レザークラフト工房のための原価・在庫管理ツール。素材から製品へ、一本の糸が縫い上げる帳簿。',
+    icon: '🧵',
+    color: '#d99a6c',
+    objClass: 'Template ★ On Sale',
+    log: [
+      '素材 → 商品の原価を自動計算・利益率を表示',
+      '素材ごとの閾値で在庫アラート',
+      'CSVエクスポートで会計ソフト連携',
+      '多言語対応(i18n)で海外販売にも対応'
+    ],
+    mags: [['RAILS', 85], ['UI/UX', 65], ['DATA MODEL', 88], ['AUTOMATION', 50]],
+    spectra: ['Rails 8', 'Devise', 'ActiveStorage', 'i18n', 'Kaminari'],
+    links: [{ label: 'BOOTHで見る', href: '#' }, { label: 'Gumroadで見る', href: '#' }],
+    // needle & thread curve
+    stars:  [[690,110,2.8],[745,90,3.6],[800,120,3],[840,170,3.4],[795,205,2.6],[880,95,2.4]],
+    edges:  [[0,1],[1,2],[2,3],[3,4],[2,5]],
+    label:  [790, 245]
+  },
+  {
+    key: 'farm',
+    code: 'OBJ-2025-γ',
+    name: '農業帳簿',
+    nameEn: 'GRANUM',
+    constLabel: 'いなほ座',
+    tag: 'レシート1枚から始まるAI記帳ツール。撮影した領収書が、実る稲穂のように帳簿へ積もる。',
+    icon: '🌾',
+    color: '#8fd49a',
+    objClass: 'Private ★ In Service',
+    log: [
+      'Gemini Flash-Lite OCRでレシートを自動仕訳',
+      '日本の農業税務カテゴリに完全対応',
+      'ベンダー(取引先)を自動識別・重複排除',
+      'Stimulus + getUserMediaのカメラ撮影UI'
+    ],
+    mags: [['RAILS', 82], ['UI/UX', 70], ['DATA MODEL', 90], ['AUTOMATION', 93]],
+    spectra: ['Rails 8', 'Gemini Flash-Lite', 'Stimulus', 'getUserMedia'],
+    links: [{ label: '家族利用中(非公開)', disabled: true }],
+    // rice stalk: stem with branches
+    stars:  [[190,430,3],[220,380,2.6],[250,330,3.4],[280,285,3.8],[235,300,2.4],[315,300,2.6],[305,255,2.2]],
+    edges:  [[0,1],[1,2],[2,3],[3,4],[3,5],[3,6]],
+    label:  [255, 470]
+  },
+  {
+    key: 'newsbot',
+    code: 'OBJ-2026-δ',
+    name: 'Slackニュースbot',
+    nameEn: 'AURORA MATUTINA',
+    constLabel: 'あけぼの座',
+    tag: '毎朝、Slackに"知りたい"を届ける配信bot。夜明けの光をテーマに、その日のニュースを照らす。',
+    icon: '📰',
+    color: '#ffab7e',
+    objClass: 'In Development',
+    log: [
+      'Gemini Flash-Liteで日本語ニュースを要約',
+      '「morning light」テーマのダッシュボードUI',
+      'GitHub Actionsで毎朝の配信を完全自動化',
+      'Render + Neonで低コスト運用'
+    ],
+    mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
+    spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
+    links: [{ label: '開発中', disabled: true }],
+    // rising sun: horizon + rays
+    stars:  [[640,420,2.6],[720,395,3.8],[800,420,2.6],[690,350,2.8],[750,350,2.8],[720,310,3.2]],
+    edges:  [[0,1],[1,2],[1,3],[1,4],[3,5],[4,5]],
+    label:  [720, 465]
+  }
+];
+ 
+/* ===== Starfield canvas (twinkle + shooting stars) ===== */
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+let meteors = [];
+ 
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = Array.from({ length: Math.min(220, Math.floor(canvas.width * canvas.height / 8000)) }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.3 + 0.3,
+    phase: Math.random() * Math.PI * 2,
+    speed: 0.4 + Math.random() * 1.2
+  }));
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+ 
+function spawnMeteor() {
+  meteors.push({
+    x: Math.random() * canvas.width * 0.8 + canvas.width * 0.1,
+    y: Math.random() * canvas.height * 0.3,
+    vx: -(4 + Math.random() * 3),
+    vy: 2 + Math.random() * 2,
+    life: 1
+  });
+}
+ 
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ 
+function drawSky(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const s of stars) {
+    const tw = reduceMotion ? 0.8 : 0.55 + 0.45 * Math.sin(t / 900 * s.speed + s.phase);
+    ctx.globalAlpha = tw * 0.9;
+    ctx.fillStyle = '#dfe8ff';
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+ 
+  if (!reduceMotion) {
+    for (let i = meteors.length - 1; i >= 0; i--) {
+      const m = meteors[i];
+      const grad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * 10, m.y - m.vy * 10);
+      grad.addColorStop(0, `rgba(200,225,255,${0.85 * m.life})`);
+      grad.addColorStop(1, 'rgba(200,225,255,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(m.x, m.y);
+      ctx.lineTo(m.x - m.vx * 10, m.y - m.vy * 10);
+      ctx.stroke();
+      m.x += m.vx; m.y += m.vy; m.life -= 0.02;
+      if (m.life <= 0) meteors.splice(i, 1);
+    }
+    if (Math.random() < 0.004) spawnMeteor();
+  }
+  requestAnimationFrame(drawSky);
+}
+requestAnimationFrame(drawSky);
+ 
+/* ===== Clock ===== */
+function tickClock() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('obs-clock').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+tickClock();
+setInterval(tickClock, 1000);
+ 
+/* ===== Build graticule (subtle sky grid) ===== */
+const grat = document.getElementById('graticule');
+let gratHtml = '';
+for (let x = 100; x < 1000; x += 100) {
+  gratHtml += `<path class="graticule" d="M ${x} 0 Q ${x + 12} 260 ${x} 520" />`;
+}
+for (let y = 90; y < 520; y += 90) {
+  gratHtml += `<path class="graticule" d="M 0 ${y} Q 500 ${y - 14} 1000 ${y}" />`;
+}
+grat.innerHTML = gratHtml;
+ 
+/* ===== Build constellations ===== */
+const constG = document.getElementById('constellations');
+constG.innerHTML = PROJECTS.map((p, i) => {
+  const starsSvg = p.stars.map(([x, y, r]) => `
+    <circle class="star-halo" cx="${x}" cy="${y}" r="${r * 2.6}" fill="${p.color}" opacity="0.22"/>
+    <circle class="const-star" cx="${x}" cy="${y}" r="${r}" fill="#f4f7ff"/>
+    <circle cx="${x}" cy="${y}" r="${r * 0.45}" fill="${p.color}"/>
+  `).join('');
+  const linesSvg = p.edges.map(([a, b]) => {
+    const [x1, y1] = p.stars[a]; const [x2, y2] = p.stars[b];
+    return `<line class="const-line" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${p.color}"/>`;
+  }).join('');
+  // hit area = bounding box of stars, padded
+  const xs = p.stars.map(s => s[0]), ys = p.stars.map(s => s[1]);
+  const bx = Math.min(...xs) - 30, by = Math.min(...ys) - 30;
+  const bw = Math.max(...xs) - bx + 60, bh = Math.max(...ys) - by + 60;
+ 
+  return `
+    <g class="const-group" data-index="${i}">
+      ${linesSvg}
+      ${starsSvg}
+      <text class="const-name" x="${p.label[0]}" y="${p.label[1]}" text-anchor="middle">${p.constLabel}</text>
+      <text class="const-name-en" x="${p.label[0]}" y="${p.label[1] + 16}" text-anchor="middle">${p.nameEn}</text>
+      <rect class="const-hit" x="${bx}" y="${by}" width="${bw}" height="${bh}" fill="transparent">
+        <title>${p.name}</title>
+      </rect>
+    </g>
+  `;
+}).join('');
+ 
+/* ===== Nav buttons ===== */
+const nav = document.getElementById('const-nav');
+nav.innerHTML = PROJECTS.map((p, i) => `
+  <button style="--c:${p.color}" data-index="${i}">
+    <span class="dot"></span>${p.constLabel} — ${p.name}
+  </button>
+`).join('');
+ 
+/* ===== Console rendering ===== */
+const consoleEl = document.getElementById('console');
+const coordReadout = document.getElementById('coord-readout');
+let activeIndex = 0;
+ 
+function renderConsole() {
+  const p = PROJECTS[activeIndex];
+  consoleEl.style.setProperty('--obj-c', p.color);
+ 
+  const linksHtml = p.links.map(l =>
+    l.disabled
+      ? `<span class="disabled">${l.label}</span>`
+      : `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`
+  ).join('');
+ 
+  consoleEl.innerHTML = `
+    <div class="console-tag mono">OBSERVATION CONSOLE // ${p.code}</div>
+    <div class="orbit-view">
+      <div class="orbit">
+        <div class="ring1"></div>
+        <div class="ring2"></div>
+        <div class="body">${p.icon}</div>
       </div>
-      <p class="photo-caption">笑顔がよく似合う二人へ。</p>
+      <div class="obj-class">${p.objClass}</div>
+      <div class="obj-code">${p.nameEn}</div>
     </div>
-  </section>
-
-  <section class="section">
-    <svg class="leaf top-left"><use href="#leaf-branch"/></svg>
-    <p class="content reveal">
-      これからは、嬉しいことは二倍に、<br>
-      しんどいことは半分こにして、<br>
-      二人で分け合っていけますように。
-    </p>
-  </section>
-
-  <section class="section">
-    <p class="content reveal">
-      ときには立ち止まる日があっても<br>
-      隣にお互いがいてくれるなら<br>
-      きっと大丈夫。<br>
-      二人のペースで歩んでいってください。
-    </p>
-  </section>
-
-  <section class="section">
-    <svg class="leaf top-right"><use href="#leaf-branch"/></svg>
-    <div class="content reveal">
-      <div class="photo-frame">
-        <!-- <img src="photo2.jpg" alt="ふたりの写真"> -->
-        <div class="photo-placeholder">
-          <span class="ph-icon">📷</span>
-          <span>ここに写真が入ります</span>
+    <div class="obj-main">
+      <div class="oname display">${p.constLabel}<span class="accent"> / </span>${p.name}</div>
+      <div class="otag">${p.tag}</div>
+ 
+      <div class="sec">観測記録 — Observation Log</div>
+      <ul class="obslog">
+        ${p.log.map(m => `<li>${m}</li>`).join('')}
+      </ul>
+ 
+      <div class="sec">光度 — Magnitude</div>
+      ${p.mags.map(([label, val]) => `
+        <div class="mag-row">
+          <div class="mlabel">${label}</div>
+          <div class="mtrack"><div class="mfill" data-val="${val}"></div></div>
+          <div class="mval">${val}</div>
         </div>
-      </div>
-      <p class="photo-caption">これからの二人へ。</p>
+      `).join('')}
+ 
+      <div class="sec">スペクトル — Tech Stack</div>
+      <div class="spectra">${p.spectra.map(t => `<span>${t}</span>`).join('')}</div>
+ 
+      <div class="obj-links">${linksHtml}</div>
     </div>
-  </section>
-
-  <section class="section">
-    <svg class="leaf bottom-left"><use href="#leaf-branch"/></svg>
-    <svg class="leaf bottom-right"><use href="#leaf-branch"/></svg>
-    <div class="content reveal">
-      <div class="emoji">🤍</div>
-      <p class="lead">どうかいつまでも</p>
-      <h1 class="typed" id="finalMessage"></h1>
-      <div class="divider-wrap"><div class="divider"></div></div>
-    </div>
-  </section>
-
-  <div class="scroll-hint">▼ スクロール</div>
-
-  <script>
-    // --- 花びらを生成して降らせる ---
-    (function createPetals() {
-      const container = document.getElementById('petals');
-      const count = 14;
-      for (let i = 0; i < count; i++) {
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('class', 'petal');
-        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-        use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#petal-shape');
-        svg.appendChild(use);
-        const size = 10 + Math.random() * 14;          // 大きさ
-        svg.style.width = size + 'px';
-        svg.style.height = size + 'px';
-        svg.style.left = Math.random() * 100 + 'vw';    // 横位置
-        svg.style.animationDuration = (8 + Math.random() * 8) + 's'; // 落下速度
-        svg.style.animationDelay = (-Math.random() * 12) + 's';      // 開始タイミングをばらす
-        svg.style.opacity = 0.4 + Math.random() * 0.4;
-        container.appendChild(svg);
-      }
-    })();
-
-    // --- 一字ずつ浮かび上がる(見出し) ---
-    function splitChars(el) {
-      const html = el.innerHTML;
-      // <br> を保持しつつ、文字を span で包む
-      const parts = html.split(/(<br\s*\/?>)/i);
-      el.innerHTML = '';
-      parts.forEach(part => {
-        if (/<br/i.test(part)) {
-          el.appendChild(document.createElement('br'));
-        } else {
-          [...part].forEach(ch => {
-            const span = document.createElement('span');
-            span.className = 'char';
-            span.textContent = ch;
-            el.appendChild(span);
-          });
-        }
-      });
-    }
-    document.querySelectorAll('.char-anim').forEach(splitChars);
-
-    function animateChars(el) {
-      const chars = el.querySelectorAll('.char');
-      chars.forEach((c, i) => {
-        setTimeout(() => c.classList.add('show'), i * 90);
-      });
-    }
-
-    // --- スクロールで各要素を表示 ---
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          const charEl = entry.target.querySelector('.char-anim');
-          if (charEl && !charEl.dataset.done) {
-            charEl.dataset.done = '1';
-            animateChars(charEl);
-          }
-        }
-      });
-    }, { threshold: 0.4 });
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-    // --- 最後のセクション:タイプライター + 紙吹雪 ---
-    const finalText = ' 末永く お幸せに ';
-    const finalEl = document.getElementById('finalMessage');
-    let celebrated = false;
-
-    function typeWriter(text, el, done) {
-      el.innerHTML = '';
-      const cursor = document.createElement('span');
-      cursor.className = 'cursor';
-      cursor.style.height = '1em';
-      el.appendChild(cursor);
-      let i = 0;
-      (function step() {
-        if (i < text.length) {
-          const ch = text[i] === ' ' ? '\u00A0' : text[i];
-          cursor.insertAdjacentText('beforebegin', ch);
-          i++;
-          setTimeout(step, 160);
-        } else {
-          setTimeout(() => cursor.remove(), 1200);
-          if (done) done();
-        }
-      })();
-    }
-
-    const finale = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !celebrated) {
-          celebrated = true;
-          typeWriter(finalText, finalEl, launchConfetti);
-        }
-      });
-    }, { threshold: 0.6 });
-    finale.observe(document.querySelector('.section:last-of-type .reveal'));
-
-    // --- 開いた直後の紙吹雪 ---
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        confetti({
-          particleCount: 80, spread: 70, origin: { y: 0.6 },
-          colors: ['#a8b894', '#d4c9a8', '#e8e2d5', '#bcae8e']
-        });
-      }, 800);
+  `;
+ 
+  requestAnimationFrame(() => {
+    consoleEl.querySelectorAll('.mfill').forEach(el => {
+      el.style.width = el.dataset.val + '%';
     });
-
-    window.addEventListener('scroll', () => {
-      const hint = document.querySelector('.scroll-hint');
-      if (window.scrollY > 100) hint.style.opacity = '0';
-    }, { passive: true });
-
-    function launchConfetti() {
-      const end = Date.now() + 1500;
-      const colors = ['#a8b894', '#d4c9a8', '#e8e2d5', '#bcae8e'];
-      (function frame() {
-        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors });
-        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-    }
-  </script>
-
+  });
+ 
+  // fake RA/DEC readout for flavor
+  const [lx, ly] = PROJECTS[activeIndex].label;
+  const ra = Math.round(lx / 1000 * 24);
+  const dec = Math.round(60 - ly / 520 * 90);
+  coordReadout.textContent = `RA ${String(ra).padStart(2, '0')}h ${String(Math.round(lx % 60)).padStart(2, '0')}m / DEC ${dec >= 0 ? '+' : ''}${dec}°`;
+}
+ 
+function updateActive() {
+  document.querySelectorAll('.const-group').forEach((g, i) => {
+    g.classList.toggle('active', i === activeIndex);
+  });
+  nav.querySelectorAll('button').forEach((b, i) => {
+    b.classList.toggle('active', i === activeIndex);
+  });
+  renderConsole();
+}
+ 
+function selectIndex(i) {
+  if (i < 0) i = PROJECTS.length - 1;
+  if (i >= PROJECTS.length) i = 0;
+  if (i !== activeIndex) {
+    activeIndex = i;
+    updateActive();
+  }
+}
+ 
+constG.querySelectorAll('.const-group').forEach(g => {
+  g.addEventListener('click', () => selectIndex(parseInt(g.dataset.index, 10)));
+});
+nav.querySelectorAll('button').forEach(b => {
+  b.addEventListener('click', () => selectIndex(parseInt(b.dataset.index, 10)));
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') selectIndex(activeIndex + 1);
+  if (e.key === 'ArrowLeft') selectIndex(activeIndex - 1);
+});
+ 
+updateActive();
+</script>
+ 
 </body>
 </html>
