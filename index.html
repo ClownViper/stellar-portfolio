@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DAISUKE // STELLAR ARCHIVE — 観測デッキ</title>
+<title>STELLAR ARCHIVE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -19,16 +19,11 @@
     --aurora-soft: rgba(125, 217, 232, 0.35);
     --muted: #8b94b8;
     --muted-dim: #4e5678;
- 
-    --c-tsundoku: #f0c453;
-    --c-hide: #d99a6c;
-    --c-farm: #8fd49a;
-    --c-news: #ffab7e;
   }
- 
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
- 
+
   body {
     background: var(--space);
     color: var(--starlight);
@@ -37,7 +32,7 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
- 
+
   /* ===== Sky layers ===== */
   #sky {
     position: fixed; inset: 0; z-index: -3;
@@ -58,10 +53,10 @@
     to   { opacity: 1;   transform: translateX(2%); }
   }
   #starfield { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
- 
+
   .mono { font-family: 'Space Mono', monospace; }
   .display { font-family: 'Shippori Mincho', serif; }
- 
+
   /* ===== Observatory top bar ===== */
   .topbar {
     display: flex; justify-content: space-between; align-items: center; gap: 16px;
@@ -87,13 +82,13 @@
   .obs-id .mark span { font-family: 'Shippori Mincho', serif; font-weight: 800; font-size: 17px; color: var(--aurora); }
   .obs-id .name { font-family: 'Shippori Mincho', serif; font-size: 19px; font-weight: 600; letter-spacing: 0.14em; line-height: 1.2; }
   .obs-id .sub { font-family: 'Space Mono', monospace; font-size: 9.5px; color: var(--muted); letter-spacing: 0.12em; }
- 
+
   .obs-meta { display: flex; gap: 26px; }
   .obs-meta .item { text-align: right; }
   .obs-meta .k { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted-dim); letter-spacing: 0.16em; }
   .obs-meta .v { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--aurora); margin-top: 2px; }
   @media (max-width: 680px) { .obs-meta .hide-sm { display: none; } }
- 
+
   /* ===== Hero ===== */
   .hero { text-align: center; padding: 64px 20px 22px; position: relative; }
   .hero .eyebrow {
@@ -118,7 +113,7 @@
     color: var(--muted); font-size: 13.5px; line-height: 2; margin-top: 22px;
     max-width: 520px; margin-left: auto; margin-right: auto;
   }
- 
+
   /* ===== Star chart ===== */
   .chart-wrap {
     max-width: 1100px; margin: 30px auto 0; padding: 0 16px;
@@ -141,7 +136,7 @@
     font-family: 'Space Mono', monospace; font-size: 9.5px; color: var(--muted-dim); letter-spacing: 0.12em;
   }
   #starchart { display: block; width: 100%; height: auto; }
- 
+
   #starchart .const-hit { cursor: pointer; }
   #starchart .const-line {
     fill: none;
@@ -158,12 +153,12 @@
     animation: drawLine 1.4s ease forwards;
   }
   @keyframes drawLine { to { stroke-dashoffset: 0; } }
- 
+
   #starchart .const-star { transition: r 0.3s ease, opacity 0.3s ease; opacity: 0.75; }
   #starchart .const-group.active .const-star { opacity: 1; }
   #starchart .const-group.active .star-halo { animation: haloPulse 2.4s ease-in-out infinite; }
   @keyframes haloPulse { 0%,100% { opacity: 0.25; } 50% { opacity: 0.6; } }
- 
+
   #starchart .const-name {
     font-family: 'Shippori Mincho', serif;
     font-size: 15px; letter-spacing: 0.24em;
@@ -177,10 +172,10 @@
   }
   #starchart .const-group.active .const-name { fill: var(--starlight); }
   #starchart .const-group:hover .const-name { fill: var(--starlight); }
- 
+
   #starchart .graticule { stroke: rgba(125,217,232,0.06); fill: none; }
- 
-  /* ===== Constellation nav (mobile-friendly) ===== */
+
+  /* ===== Constellation nav ===== */
   .const-nav {
     display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
     margin-top: 18px;
@@ -202,8 +197,8 @@
     box-shadow: 0 0 16px -6px var(--c);
   }
   .const-nav button:focus-visible { outline: 2px solid var(--aurora); outline-offset: 2px; }
- 
-  /* ===== Observation console (detail) ===== */
+
+  /* ===== Observation console ===== */
   .console-wrap { max-width: 1100px; margin: 26px auto 0; padding: 0 16px 40px; }
   .console {
     border: 1px solid var(--line);
@@ -226,15 +221,13 @@
     position: absolute; top: 14px; right: 20px;
     font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted-dim); letter-spacing: 0.16em;
   }
- 
+
   .orbit-view { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .orbit {
     position: relative; width: 170px; height: 170px; margin-bottom: 18px;
     display: flex; align-items: center; justify-content: center;
   }
-  .orbit .ring1, .orbit .ring2 {
-    position: absolute; border-radius: 50%;
-  }
+  .orbit .ring1, .orbit .ring2 { position: absolute; border-radius: 50%; }
   .orbit .ring1 {
     inset: 0;
     border: 1px solid color-mix(in srgb, var(--obj-c, var(--aurora)) 25%, transparent);
@@ -266,7 +259,7 @@
     border-radius: 999px; padding: 4px 14px; text-transform: uppercase;
   }
   .orbit-view .obj-code { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted-dim); margin-top: 10px; letter-spacing: 0.14em; }
- 
+
   .obj-main .oname {
     font-family: 'Shippori Mincho', serif; font-size: 34px; font-weight: 600;
     letter-spacing: 0.08em; line-height: 1.2;
@@ -274,7 +267,7 @@
   }
   .obj-main .oname .accent { color: var(--obj-c, var(--aurora)); }
   .obj-main .otag { color: var(--muted); font-size: 13px; margin-top: 8px; margin-bottom: 20px; line-height: 1.8; }
- 
+
   .sec {
     font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em;
     color: var(--muted-dim); text-transform: uppercase;
@@ -283,7 +276,7 @@
   }
   .sec::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
   .sec:first-child { margin-top: 0; }
- 
+
   .obslog { list-style: none; }
   .obslog li {
     font-size: 13.5px; line-height: 1.9;
@@ -294,7 +287,7 @@
     content: '✦'; position: absolute; left: 2px; top: 5px;
     color: var(--obj-c, var(--aurora)); font-size: 11px;
   }
- 
+
   .mag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; }
   .mag-row .mlabel { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); width: 96px; flex-shrink: 0; letter-spacing: 0.06em; }
   .mag-row .mtrack { flex: 1; height: 2px; background: var(--line); position: relative; border-radius: 2px; }
@@ -311,14 +304,14 @@
     box-shadow: 0 0 10px var(--obj-c, var(--aurora));
   }
   .mag-row .mval { font-family: 'Space Mono', monospace; font-size: 11px; width: 34px; text-align: right; color: var(--muted); }
- 
+
   .spectra { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }
   .spectra span {
     font-family: 'Space Mono', monospace; font-size: 10px; padding: 4px 12px;
     border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
     background: rgba(125,217,232,0.03);
   }
- 
+
   .obj-links { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
   .obj-links a, .obj-links span.disabled {
     font-family: 'Noto Sans JP', sans-serif; font-weight: 400; font-size: 12.5px;
@@ -332,13 +325,12 @@
     box-shadow: 0 0 24px -6px var(--obj-c, var(--aurora));
   }
   .obj-links span.disabled { color: var(--muted-dim); border-color: var(--line); }
- 
+
   .hint {
     text-align: center; font-family: 'Space Mono', monospace; font-size: 10px;
     color: var(--muted-dim); margin-top: 16px; letter-spacing: 0.1em;
   }
-  .hint kbd { border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; background: var(--panel-solid); }
- 
+
   /* ===== Footer ===== */
   footer {
     border-top: 1px solid var(--line);
@@ -353,201 +345,101 @@
   }
   footer .flinks a:hover { color: var(--aurora); border-color: var(--aurora); }
   footer .copy { color: var(--muted-dim); font-size: 10px; font-family: 'Space Mono', monospace; letter-spacing: 0.1em; line-height: 1.9; }
- 
+
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
 </style>
 </head>
 <body>
- 
+
 <div id="sky"></div>
 <div id="aurora"></div>
 <canvas id="starfield"></canvas>
- 
+
 <div class="topbar">
   <div class="obs-id">
-    <div class="mark"><span>D</span></div>
+    <div class="mark"><span id="t-mark"></span></div>
     <div>
-      <div class="name display">大介観測所</div>
-      <div class="sub">RAILS ENGINEER // OBSERVATION DECK</div>
+      <div class="name display" id="t-name"></div>
+      <div class="sub" id="t-sub"></div>
     </div>
   </div>
-  <div class="obs-meta">
-    <div class="item hide-sm">
-      <div class="k">LOCAL TIME</div>
-      <div class="v" id="obs-clock">--:--:--</div>
-    </div>
-    <div class="item hide-sm">
-      <div class="k">CORE SYSTEM</div>
-      <div class="v">RAILS 8</div>
-    </div>
-    <div class="item">
-      <div class="k">CATALOGUED</div>
-      <div class="v">4 OBJECTS</div>
-    </div>
-  </div>
+  <div class="obs-meta" id="t-meta"></div>
 </div>
- 
+
 <div class="hero">
-  <div class="eyebrow mono">Stellar Archive</div>
-  <h1 class="display">星図の間</h1>
-  <div class="en">— PLANETARIUM OF WORKS —</div>
-  <p class="sub">
-    これまでに作り上げたアプリケーションを、夜空の星座として記録しています。<br>
-    星座を選ぶと、観測コンソールに詳細データが投影されます。
-  </p>
+  <div class="eyebrow mono" id="h-eyebrow"></div>
+  <h1 class="display" id="h-title"></h1>
+  <div class="en" id="h-title-en"></div>
+  <p class="sub" id="h-sub"></p>
 </div>
- 
+
 <div class="chart-wrap">
   <div class="chart-frame">
-    <div class="frame-label mono">SKY CHART // EPOCH 2026.7</div>
+    <div class="frame-label mono" id="c-frame-label"></div>
     <div class="frame-label-r mono" id="coord-readout">RA --h --m / DEC +--°</div>
     <svg id="starchart" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="制作物の星図">
-      <!-- graticule -->
       <g id="graticule"></g>
-      <!-- constellations injected by JS -->
       <g id="constellations"></g>
     </svg>
   </div>
- 
+
   <div class="const-nav" id="const-nav"></div>
-  <p class="hint">← → で星座を切替 / 星座か下のボタンをタップ</p>
+  <p class="hint" id="c-hint"></p>
 </div>
- 
+
 <div class="console-wrap">
-  <div class="console" id="obs-console"></div>
+  <div class="console" id="console"></div>
 </div>
- 
+
 <footer>
-  <div class="flinks">
-    <a href="#" target="_blank">GitHub</a>
-    <a href="#" target="_blank">BOOTH</a>
-    <a href="#" target="_blank">Gumroad</a>
-    <a href="#" target="_blank">X (Twitter)</a>
-  </div>
-  <div class="copy">
-    © 2026 DAISUKE OBSERVATORY<br>
-    ALL CONSTELLATIONS BUILT WITH RUBY ON RAILS
-  </div>
+  <div class="flinks" id="f-links"></div>
+  <div class="copy" id="f-copy"></div>
 </footer>
- 
+
+<script src="content.js"></script>
 <script>
-/* =========================================================
-   Data: projects as constellations
-   points: star coordinates in the 1000x520 chart
-   edges:  index pairs to connect
-   ========================================================= */
-const PROJECTS = [
-  {
-    key: 'tsundoku',
-    code: 'OBJ-2024-α',
-    name: '積読マイニング',
-    nameEn: 'BIBLIOTHECA',
-    constLabel: 'としょ座',
-    tag: '積読を「資産」に変える本棚管理RPG。バーコードでスキャンした本が、夜空の資産として積み上がる。',
-    icon: '📚',
-    color: '#f0c453',
-    objClass: 'Template ★ On Sale',
-    log: [
-      'バーコードスキャンで秒速登録(html5-qrcode + OpenBD API)',
-      '未読本を「資産」として可視化するダッシュボード',
-      '読了チャレンジ機能で積読を消化',
-      'PWA対応、オフラインでも本棚を閲覧可能'
-    ],
-    mags: [['RAILS', 90], ['UI/UX', 78], ['DATA MODEL', 68], ['AUTOMATION', 55]],
-    spectra: ['Rails 8', 'Hotwire', 'html5-qrcode', 'OpenBD API', 'PWA'],
-    links: [{ label: 'BOOTHで見る', href: '#' }],
-    // open book shape
-    points: [[120,160],[175,120],[235,150],[175,185],[120,160],[235,150],[290,115],[235,150]],
-    stars:  [[120,160,3.2],[175,120,4],[235,150,3.4],[175,185,2.6],[290,115,3]],
-    edges:  [[0,1],[1,2],[2,3],[3,0],[2,4]],
-    label:  [200, 225]
-  },
-  {
-    key: 'hideledger',
-    code: 'OBJ-2024-β',
-    name: 'HideLedger',
-    nameEn: 'FILUM',
-    constLabel: 'いと座',
-    tag: 'レザークラフト工房のための原価・在庫管理ツール。素材から製品へ、一本の糸が縫い上げる帳簿。',
-    icon: '🧵',
-    color: '#d99a6c',
-    objClass: 'Template ★ On Sale',
-    log: [
-      '素材 → 商品の原価を自動計算・利益率を表示',
-      '素材ごとの閾値で在庫アラート',
-      'CSVエクスポートで会計ソフト連携',
-      '多言語対応(i18n)で海外販売にも対応'
-    ],
-    mags: [['RAILS', 85], ['UI/UX', 65], ['DATA MODEL', 88], ['AUTOMATION', 50]],
-    spectra: ['Rails 8', 'Devise', 'ActiveStorage', 'i18n', 'Kaminari'],
-    links: [{ label: 'BOOTHで見る', href: '#' }, { label: 'Gumroadで見る', href: '#' }],
-    // needle & thread curve
-    stars:  [[690,110,2.8],[745,90,3.6],[800,120,3],[840,170,3.4],[795,205,2.6],[880,95,2.4]],
-    edges:  [[0,1],[1,2],[2,3],[3,4],[2,5]],
-    label:  [790, 245]
-  },
-  {
-    key: 'farm',
-    code: 'OBJ-2025-γ',
-    name: '農業帳簿',
-    nameEn: 'GRANUM',
-    constLabel: 'いなほ座',
-    tag: 'レシート1枚から始まるAI記帳ツール。撮影した領収書が、実る稲穂のように帳簿へ積もる。',
-    icon: '🌾',
-    color: '#8fd49a',
-    objClass: 'Private ★ In Service',
-    log: [
-      'Gemini Flash-Lite OCRでレシートを自動仕訳',
-      '日本の農業税務カテゴリに完全対応',
-      'ベンダー(取引先)を自動識別・重複排除',
-      'Stimulus + getUserMediaのカメラ撮影UI'
-    ],
-    mags: [['RAILS', 82], ['UI/UX', 70], ['DATA MODEL', 90], ['AUTOMATION', 93]],
-    spectra: ['Rails 8', 'Gemini Flash-Lite', 'Stimulus', 'getUserMedia'],
-    links: [{ label: '家族利用中(非公開)', disabled: true }],
-    // rice stalk: stem with branches
-    stars:  [[190,430,3],[220,380,2.6],[250,330,3.4],[280,285,3.8],[235,300,2.4],[315,300,2.6],[305,255,2.2]],
-    edges:  [[0,1],[1,2],[2,3],[3,4],[3,5],[3,6]],
-    label:  [255, 470]
-  },
-  {
-    key: 'newsbot',
-    code: 'OBJ-2026-δ',
-    name: 'Slackニュースbot',
-    nameEn: 'AURORA MATUTINA',
-    constLabel: 'あけぼの座',
-    tag: '毎朝、Slackに"知りたい"を届ける配信bot。夜明けの光をテーマに、その日のニュースを照らす。',
-    icon: '📰',
-    color: '#ffab7e',
-    objClass: 'In Development',
-    log: [
-      'Gemini Flash-Liteで日本語ニュースを要約',
-      '「morning light」テーマのダッシュボードUI',
-      'GitHub Actionsで毎朝の配信を完全自動化',
-      'Render + Neonで低コスト運用'
-    ],
-    mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
-    spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
-    links: [{ label: '開発中', disabled: true }],
-    // rising sun: horizon + rays
-    stars:  [[640,420,2.6],[720,395,3.8],[800,420,2.6],[690,350,2.8],[750,350,2.8],[720,310,3.2]],
-    edges:  [[0,1],[1,2],[1,3],[1,4],[3,5],[4,5]],
-    label:  [720, 465]
-  }
-];
- 
-/* ===== Starfield canvas (twinkle + shooting stars) ===== */
+/* =====================================================================
+   以下は描画ロジック。文言の変更では触る必要はありません。
+   (Railsでいう view/helper 相当。文言は content.js = locales で管理)
+   ===================================================================== */
+
+/* ===== Apply SITE content ===== */
+document.title = SITE.pageTitle;
+document.getElementById('t-mark').textContent = SITE.topbar.mark;
+document.getElementById('t-name').textContent = SITE.topbar.name;
+document.getElementById('t-sub').textContent = SITE.topbar.sub;
+document.getElementById('t-meta').innerHTML = SITE.topbar.meta.map(m => `
+  <div class="item ${m.hideSm ? 'hide-sm' : ''}">
+    <div class="k">${m.k}</div>
+    <div class="v" ${m.v === 'CLOCK' ? 'id="obs-clock"' : ''}>${m.v === 'CLOCK' ? '--:--:--' : m.v}</div>
+  </div>
+`).join('');
+
+document.getElementById('h-eyebrow').textContent = SITE.hero.eyebrow;
+document.getElementById('h-title').textContent = SITE.hero.title;
+document.getElementById('h-title-en').textContent = SITE.hero.titleEn;
+document.getElementById('h-sub').innerHTML = SITE.hero.sub;
+
+document.getElementById('c-frame-label').textContent = SITE.chart.frameLabel;
+document.getElementById('c-hint').textContent = SITE.chart.hint;
+
+document.getElementById('f-links').innerHTML = SITE.footer.links.map(l =>
+  `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`
+).join('');
+document.getElementById('f-copy').innerHTML = SITE.footer.copy;
+
+/* ===== Starfield canvas ===== */
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
-let stars = [];
+let bgStars = [];
 let meteors = [];
- 
+
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  stars = Array.from({ length: Math.min(220, Math.floor(canvas.width * canvas.height / 8000)) }, () => ({
+  bgStars = Array.from({ length: Math.min(220, Math.floor(canvas.width * canvas.height / 8000)) }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     r: Math.random() * 1.3 + 0.3,
@@ -557,7 +449,7 @@ function resizeCanvas() {
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
- 
+
 function spawnMeteor() {
   meteors.push({
     x: Math.random() * canvas.width * 0.8 + canvas.width * 0.1,
@@ -567,12 +459,12 @@ function spawnMeteor() {
     life: 1
   });
 }
- 
+
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- 
+
 function drawSky(t) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (const s of stars) {
+  for (const s of bgStars) {
     const tw = reduceMotion ? 0.8 : 0.55 + 0.45 * Math.sin(t / 900 * s.speed + s.phase);
     ctx.globalAlpha = tw * 0.9;
     ctx.fillStyle = '#dfe8ff';
@@ -581,7 +473,7 @@ function drawSky(t) {
     ctx.fill();
   }
   ctx.globalAlpha = 1;
- 
+
   if (!reduceMotion) {
     for (let i = meteors.length - 1; i >= 0; i--) {
       const m = meteors[i];
@@ -602,17 +494,20 @@ function drawSky(t) {
   requestAnimationFrame(drawSky);
 }
 requestAnimationFrame(drawSky);
- 
-/* ===== Clock ===== */
-function tickClock() {
-  const d = new Date();
-  const pad = n => String(n).padStart(2, '0');
-  document.getElementById('obs-clock').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+
+/* ===== Clock (only if a CLOCK meta exists) ===== */
+const clockEl = document.getElementById('obs-clock');
+if (clockEl) {
+  function tickClock() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    clockEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
 }
-tickClock();
-setInterval(tickClock, 1000);
- 
-/* ===== Build graticule (subtle sky grid) ===== */
+
+/* ===== Graticule ===== */
 const grat = document.getElementById('graticule');
 let gratHtml = '';
 for (let x = 100; x < 1000; x += 100) {
@@ -622,8 +517,8 @@ for (let y = 90; y < 520; y += 90) {
   gratHtml += `<path class="graticule" d="M 0 ${y} Q 500 ${y - 14} 1000 ${y}" />`;
 }
 grat.innerHTML = gratHtml;
- 
-/* ===== Build constellations ===== */
+
+/* ===== Constellations ===== */
 const constG = document.getElementById('constellations');
 constG.innerHTML = PROJECTS.map((p, i) => {
   const starsSvg = p.stars.map(([x, y, r]) => `
@@ -635,11 +530,10 @@ constG.innerHTML = PROJECTS.map((p, i) => {
     const [x1, y1] = p.stars[a]; const [x2, y2] = p.stars[b];
     return `<line class="const-line" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${p.color}"/>`;
   }).join('');
-  // hit area = bounding box of stars, padded
   const xs = p.stars.map(s => s[0]), ys = p.stars.map(s => s[1]);
   const bx = Math.min(...xs) - 30, by = Math.min(...ys) - 30;
   const bw = Math.max(...xs) - bx + 60, bh = Math.max(...ys) - by + 60;
- 
+
   return `
     <g class="const-group" data-index="${i}">
       ${linesSvg}
@@ -652,7 +546,7 @@ constG.innerHTML = PROJECTS.map((p, i) => {
     </g>
   `;
 }).join('');
- 
+
 /* ===== Nav buttons ===== */
 const nav = document.getElementById('const-nav');
 nav.innerHTML = PROJECTS.map((p, i) => `
@@ -660,24 +554,24 @@ nav.innerHTML = PROJECTS.map((p, i) => `
     <span class="dot"></span>${p.constLabel} — ${p.name}
   </button>
 `).join('');
- 
-/* ===== Console rendering ===== */
-const consoleEl = document.getElementById('obs-console');
+
+/* ===== Console ===== */
+const consoleEl = document.getElementById('console');
 const coordReadout = document.getElementById('coord-readout');
 let activeIndex = 0;
- 
+
 function renderConsole() {
   const p = PROJECTS[activeIndex];
   consoleEl.style.setProperty('--obj-c', p.color);
- 
+
   const linksHtml = p.links.map(l =>
     l.disabled
       ? `<span class="disabled">${l.label}</span>`
       : `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`
   ).join('');
- 
+
   consoleEl.innerHTML = `
-    <div class="console-tag mono">OBSERVATION CONSOLE // ${p.code}</div>
+    <div class="console-tag mono">${SITE.console.tagPrefix} ${p.code}</div>
     <div class="orbit-view">
       <div class="orbit">
         <div class="ring1"></div>
@@ -690,13 +584,13 @@ function renderConsole() {
     <div class="obj-main">
       <div class="oname display">${p.constLabel}<span class="accent"> / </span>${p.name}</div>
       <div class="otag">${p.tag}</div>
- 
-      <div class="sec">観測記録 — Observation Log</div>
+
+      <div class="sec">${SITE.console.secLog}</div>
       <ul class="obslog">
         ${p.log.map(m => `<li>${m}</li>`).join('')}
       </ul>
- 
-      <div class="sec">光度 — Magnitude</div>
+
+      <div class="sec">${SITE.console.secMag}</div>
       ${p.mags.map(([label, val]) => `
         <div class="mag-row">
           <div class="mlabel">${label}</div>
@@ -704,27 +598,26 @@ function renderConsole() {
           <div class="mval">${val}</div>
         </div>
       `).join('')}
- 
-      <div class="sec">スペクトル — Tech Stack</div>
+
+      <div class="sec">${SITE.console.secSpectra}</div>
       <div class="spectra">${p.spectra.map(t => `<span>${t}</span>`).join('')}</div>
- 
+
       <div class="obj-links">${linksHtml}</div>
     </div>
   `;
- 
+
   requestAnimationFrame(() => {
     consoleEl.querySelectorAll('.mfill').forEach(el => {
       el.style.width = el.dataset.val + '%';
     });
   });
- 
-  // fake RA/DEC readout for flavor
-  const [lx, ly] = PROJECTS[activeIndex].label;
+
+  const [lx, ly] = p.label;
   const ra = Math.round(lx / 1000 * 24);
   const dec = Math.round(60 - ly / 520 * 90);
   coordReadout.textContent = `RA ${String(ra).padStart(2, '0')}h ${String(Math.round(lx % 60)).padStart(2, '0')}m / DEC ${dec >= 0 ? '+' : ''}${dec}°`;
 }
- 
+
 function updateActive() {
   document.querySelectorAll('.const-group').forEach((g, i) => {
     g.classList.toggle('active', i === activeIndex);
@@ -734,7 +627,7 @@ function updateActive() {
   });
   renderConsole();
 }
- 
+
 function selectIndex(i) {
   if (i < 0) i = PROJECTS.length - 1;
   if (i >= PROJECTS.length) i = 0;
@@ -743,7 +636,7 @@ function selectIndex(i) {
     updateActive();
   }
 }
- 
+
 constG.querySelectorAll('.const-group').forEach(g => {
   g.addEventListener('click', () => selectIndex(parseInt(g.dataset.index, 10)));
 });
@@ -754,9 +647,9 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') selectIndex(activeIndex + 1);
   if (e.key === 'ArrowLeft') selectIndex(activeIndex - 1);
 });
- 
+
 updateActive();
 </script>
- 
+
 </body>
 </html>
