@@ -7,12 +7,12 @@
 
 const SITE = {
   // <title> タグ
-  pageTitle: 'DAISUKE // STELLAR ARCHIVE — 観測デッキ',
+  pageTitle: 'STELLAR PORTFOLIO — 観測デッキ',
 
   // ---- 上部バー ----
   topbar: {
-    mark: 'D',                                  // 丸いロゴの中の1文字
-    name: '大介観測所',
+    mark: 'S',                                  // 丸いロゴの中の1文字
+    name: 'Stellar Portfolio',
     sub: 'RAILS ENGINEER // OBSERVATION DECK',
     meta: [
       // { k: ラベル, v: 値 } — v: 'CLOCK' にするとリアルタイム時計になる
