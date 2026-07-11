@@ -162,7 +162,8 @@ const PROJECTS = [
       'Gemini Flash-Liteで日本語ニュースを要約',
       '「morning cafeteria」テーマのダッシュボードUI',
       'GitHub Actionsで毎朝の配信を完全自動化',
-      'Render + Neonで低コスト運用'
+      'Render + Neonで低コスト運用',
+      'スマホ対応はしてねぇです'
     ],
     mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
