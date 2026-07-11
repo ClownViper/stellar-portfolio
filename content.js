@@ -157,7 +157,7 @@ const PROJECTS = [
     tag: '毎朝、Slackに"知りたい"を届ける配信bot。夜明けの光をテーマに、その日のニュースを照らす。',
     icon: '📰',
     color: '#ffab7e',
-    objClass: 'In Development',
+    objClass: 'Test site is live',
     log: [
       'Gemini Flash-Liteで日本語ニュースを要約',
       '「morning cafeteria」テーマのダッシュボードUI',
