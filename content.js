@@ -160,13 +160,13 @@ const PROJECTS = [
     objClass: 'In Development',
     log: [
       'Gemini Flash-Liteで日本語ニュースを要約',
-      '「morning light」テーマのダッシュボードUI',
+      '「morning cafeteria」テーマのダッシュボードUI',
       'GitHub Actionsで毎朝の配信を完全自動化',
       'Render + Neonで低コスト運用'
     ],
     mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
-    links: [{ label: '開発中', disabled: true }],
+    links: [{ label: 'テストサイト', href: 'https://slack-news-bot-3q2x.onrender.com' }],
     stars: [[640,420,2.6],[720,395,3.8],[800,420,2.6],[690,350,2.8],[750,350,2.8],[720,310,3.2]],
     edges: [[0,1],[1,2],[1,3],[1,4],[3,5],[4,5]],
     label: [720, 465]
