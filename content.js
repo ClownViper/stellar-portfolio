@@ -129,22 +129,27 @@ const PROJECTS = [
   },
   {
     code: 'OBJ-2025-γ',
-    name: '農業帳簿',
+    name: '農業帳簿-レシート管理',
     nameEn: 'GRANUM',
     constLabel: 'いなほ座',
     tag: 'レシート1枚から始まるAI記帳ツール。撮影した領収書が、実る稲穂のように帳簿へ積もる。',
     icon: '🌾',
     color: '#8fd49a',
-    objClass: 'Private ★ In Service',
+    objClass: 'Test site is live',
     log: [
       'Gemini Flash-Lite OCRでレシートを自動仕訳',
-      '日本の農業税務カテゴリに完全対応',
+      '日本の農業税務カテゴリに完全対応したいがまだです',
       'ベンダー(取引先)を自動識別・重複排除',
-      'Stimulus + getUserMediaのカメラ撮影UI'
+      'Stimulus + getUserMediaのカメラ撮影UI',
+      'CSVとかちゃんと作ったら完成だけど、今はただのレシート管理'
     ],
     mags: [['RAILS', 82], ['UI/UX', 70], ['DATA MODEL', 90], ['AUTOMATION', 93]],
-    spectra: ['Rails 8', 'Gemini Flash-Lite', 'Stimulus', 'getUserMedia'],
-    links: [{ label: '家族利用中(非公開)', disabled: true }],
+    spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'Stimulus', 'getUserMedia'],
+    links: [
+      { label: 'BOOTHで見る', href: '#' },
+      { label: 'Gumroadで見る', href: '#' }
+    ],
+    links: [{ label: 'テストサイト', href: 'https://receipt-manager-pluk.onrender.com' }],
     stars: [[190,430,3],[220,380,2.6],[250,330,3.4],[280,285,3.8],[235,300,2.4],[315,300,2.6],[305,255,2.2]],
     edges: [[0,1],[1,2],[2,3],[3,4],[3,5],[3,6]],
     label: [255, 470]
@@ -167,6 +172,10 @@ const PROJECTS = [
     ],
     mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
+    links: [
+      { label: 'BOOTHで見る', href: '#' },
+      { label: 'Gumroadで見る', href: '#' }
+    ],
     links: [{ label: 'テストサイト', href: 'https://slack-news-bot-3q2x.onrender.com' }],
     stars: [[640,420,2.6],[720,395,3.8],[800,420,2.6],[690,350,2.8],[750,350,2.8],[720,310,3.2]],
     edges: [[0,1],[1,2],[1,3],[1,4],[3,5],[4,5]],
