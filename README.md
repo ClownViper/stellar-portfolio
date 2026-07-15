@@ -1,1 +1,1 @@
-# wedding-message
+# ポートフォリオ用
