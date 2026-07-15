@@ -44,6 +44,11 @@ const SITE = {
     secSpectra: 'スペクトル — Tech Stack'
   },
 
+  // ---- 注釈 ----
+  explanation : {
+    testAttention : 'テストサイトは、常時起動していないため起動まで少し時間がかかります。'
+  },
+
   // ---- フッター ----
   footer: {
     links: [
