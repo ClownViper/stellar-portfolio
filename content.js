@@ -146,10 +146,10 @@ const PROJECTS = [
     mags: [['RAILS', 82], ['UI/UX', 70], ['DATA MODEL', 90], ['AUTOMATION', 93]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'Stimulus', 'getUserMedia'],
     links: [
+      { label: 'テストサイト', href: 'https://receipt-manager-pluk.onrender.com' },
       { label: 'BOOTHで見る', href: '#' },
       { label: 'Gumroadで見る', href: '#' }
     ],
-    links: [{ label: 'テストサイト', href: 'https://receipt-manager-pluk.onrender.com' }],
     stars: [[190,430,3],[220,380,2.6],[250,330,3.4],[280,285,3.8],[235,300,2.4],[315,300,2.6],[305,255,2.2]],
     edges: [[0,1],[1,2],[2,3],[3,4],[3,5],[3,6]],
     label: [255, 470]
@@ -173,10 +173,10 @@ const PROJECTS = [
     mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
     links: [
+      { label: 'テストサイト', href: 'https://slack-news-bot-3q2x.onrender.com' },
       { label: 'BOOTHで見る', href: '#' },
       { label: 'Gumroadで見る', href: '#' }
     ],
-    links: [{ label: 'テストサイト', href: 'https://slack-news-bot-3q2x.onrender.com' }],
     stars: [[640,420,2.6],[720,395,3.8],[800,420,2.6],[690,350,2.8],[750,350,2.8],[720,310,3.2]],
     edges: [[0,1],[1,2],[1,3],[1,4],[3,5],[4,5]],
     label: [720, 465]
