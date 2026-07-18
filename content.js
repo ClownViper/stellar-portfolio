@@ -93,7 +93,7 @@ const PROJECTS = [
     tag: '積読を「資産」に変える本棚管理RPG。バーコードでスキャンした本が、夜空の資産として積み上がる。',
     icon: '📚',
     color: '#f0c453',
-    objClass: 'Template ★ On Sale',
+    objClass: 'Test site is live',
     log: [
       'バーコードスキャンで秒速登録(html5-qrcode + OpenBD API)',
       '未読本を「資産」として可視化するダッシュボード',
@@ -102,7 +102,11 @@ const PROJECTS = [
     ],
     mags: [['RAILS', 90], ['UI/UX', 78], ['DATA MODEL', 68], ['AUTOMATION', 55]],
     spectra: ['Rails 8', 'Hotwire', 'html5-qrcode', 'OpenBD API', 'PWA'],
-    links: [{ label: 'BOOTHで見る', href: '#' }],
+    links: [
+      { label: 'テストサイト', href: 'https://unread-books.onrender.com' },
+      { label: 'BOOTHで見る', href: '#' },
+      { label: 'Gumroadで見る', href: '#' }
+    ],
     stars: [[120,160,3.2],[175,120,4],[235,150,3.4],[175,185,2.6],[290,115,3]],
     edges: [[0,1],[1,2],[2,3],[3,0],[2,4]],
     label: [200, 225]
