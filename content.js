@@ -113,22 +113,23 @@ const PROJECTS = [
   },
   {
     code: 'OBJ-2024-β',
-    name: 'HideLedger',
-    nameEn: 'FILUM',
-    constLabel: 'いと座',
-    tag: 'レザークラフト工房のための原価・在庫管理ツール。素材から製品へ、一本の糸が縫い上げる帳簿。',
-    icon: '🧵',
-    color: '#d99a6c',
-    objClass: 'Template ★ On Sale',
+    name: '生活ログ',
+    nameEn: 'DIARIUM',
+    constLabel: 'こよみ座',
+    tag: '日記・家計・健康、日々の営みをひとつに束ねるライフログアプリ。毎日の記録が、暦のように星空へ連なっていく。',
+    icon: '📔',
+    color: '#a7b8e8',
+    objClass: 'Test site is live',
     log: [
-      '素材 → 商品の原価を自動計算・利益率を表示',
-      '素材ごとの閾値で在庫アラート',
-      'CSVエクスポートで会計ソフト連携',
-      '多言語対応(i18n)で海外販売にも対応'
+      '日記・家計簿・健康ログ・読書ログを1つのアプリに統合',
+      'WebPushのリマインド通知で記録の習慣化をサポート',
+      'PWA対応、スマホからいつでも今日の記録を追加',
+      '日々のデータを振り返るダッシュボード表示'
     ],
-    mags: [['RAILS', 85], ['UI/UX', 65], ['DATA MODEL', 88], ['AUTOMATION', 50]],
-    spectra: ['Rails 8', 'Devise', 'ActiveStorage', 'i18n', 'Kaminari'],
+    mags: [['RAILS', 85], ['UI/UX', 72], ['DATA MODEL', 80], ['AUTOMATION', 58]],
+    spectra: ['Rails 8', 'Hotwire', 'PWA', 'WebPush', 'ActiveStorage'],
     links: [
+      { label: 'テストサイト', href: 'https://diary-application-4o2m.onrender.com' },
       { label: 'BOOTHで見る', href: '#' },
       { label: 'Gumroadで見る', href: '#' }
     ],
