@@ -103,9 +103,9 @@ const PROJECTS = [
     mags: [['RAILS', 90], ['UI/UX', 78], ['DATA MODEL', 68], ['AUTOMATION', 55]],
     spectra: ['Rails 8', 'Hotwire', 'html5-qrcode', 'OpenBD API', 'PWA'],
     links: [
-      { label: 'テストサイト', href: 'https://unread-books.onrender.com' },
-      { label: 'BOOTHで見る', href: '#' },
-      { label: 'Gumroadで見る', href: '#' }
+      { label: 'テストサイト', href: 'https://unread-books.onrender.com' }
+      // { label: 'BOOTHで見る', href: '#' },
+      // { label: 'Gumroadで見る', href: '#' }
     ],
     stars: [[120,160,3.2],[175,120,4],[235,150,3.4],[175,185,2.6],[290,115,3]],
     edges: [[0,1],[1,2],[2,3],[3,0],[2,4]],
@@ -129,9 +129,9 @@ const PROJECTS = [
     mags: [['RAILS', 85], ['UI/UX', 72], ['DATA MODEL', 80], ['AUTOMATION', 58]],
     spectra: ['Rails 8', 'Hotwire', 'PWA', 'WebPush', 'ActiveStorage'],
     links: [
-      { label: 'テストサイト', href: 'https://diary-application-4o2m.onrender.com' },
-      { label: 'BOOTHで見る', href: '#' },
-      { label: 'Gumroadで見る', href: '#' }
+      { label: 'テストサイト', href: 'https://diary-application-4o2m.onrender.com' }
+      // { label: 'BOOTHで見る', href: '#' },
+      // { label: 'Gumroadで見る', href: '#' }
     ],
     stars: [[690,110,2.8],[745,90,3.6],[800,120,3],[840,170,3.4],[795,205,2.6],[880,95,2.4]],
     edges: [[0,1],[1,2],[2,3],[3,4],[2,5]],
@@ -156,9 +156,9 @@ const PROJECTS = [
     mags: [['RAILS', 82], ['UI/UX', 70], ['DATA MODEL', 90], ['AUTOMATION', 93]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'Stimulus', 'getUserMedia'],
     links: [
-      { label: 'テストサイト', href: 'https://receipt-manager-pluk.onrender.com' },
-      { label: 'BOOTHで見る', href: '#' },
-      { label: 'Gumroadで見る', href: '#' }
+      { label: 'テストサイト', href: 'https://receipt-manager-pluk.onrender.com' }
+      // { label: 'BOOTHで見る', href: '#' },
+      // { label: 'Gumroadで見る', href: '#' }
     ],
     stars: [[190,430,3],[220,380,2.6],[250,330,3.4],[280,285,3.8],[235,300,2.4],[315,300,2.6],[305,255,2.2]],
     edges: [[0,1],[1,2],[2,3],[3,4],[3,5],[3,6]],
@@ -183,9 +183,9 @@ const PROJECTS = [
     mags: [['RAILS', 75], ['UI/UX', 80], ['DATA MODEL', 62], ['AUTOMATION', 92]],
     spectra: ['Rails 8', 'Gemini Flash-Lite', 'Neon', 'Render', 'GitHub Actions'],
     links: [
-      { label: 'テストサイト', href: 'https://slack-news-bot-3q2x.onrender.com' },
-      { label: 'BOOTHで見る', href: '#' },
-      { label: 'Gumroadで見る', href: '#' }
+      { label: 'テストサイト', href: 'https://slack-news-bot-3q2x.onrender.com' }
+      // { label: 'BOOTHで見る', href: '#' },
+      // { label: 'Gumroadで見る', href: '#' }
     ],
     stars: [[640,420,2.6],[720,395,3.8],[800,420,2.6],[690,350,2.8],[750,350,2.8],[720,310,3.2]],
     edges: [[0,1],[1,2],[1,3],[1,4],[3,5],[4,5]],
